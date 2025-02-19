@@ -1,6 +1,6 @@
 import { instance } from "src/api/instance"
 
-function currentWeather(q: string) {
+function getWeather(q: string) {
     const data = instance.get('/current.json', {
         params: {
             q
@@ -14,4 +14,4 @@ function currentWeather(q: string) {
     return data
 }
 
-export { currentWeather }
+export { getWeather }

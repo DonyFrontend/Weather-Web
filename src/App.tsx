@@ -1,34 +1,40 @@
 import { useEffect, useState } from "react";
 import Header from "src/components/header/Header";
 import Footer from "./components/footer/Footer";
-import { currentWeather } from "./api/queries/current/current";
 import { ICurrent } from "./api/queries/current/currentTypes";
 import axios from "axios";
+import Loading from "./pages/Loading/Loading";
+import { getWeatherFromIP } from "./api/queries/fromIP/fromIP";
+import { getWeather } from "./api/queries/current/current";
 
 function App() {
   const [state, setState] = useState({ origin: '' });
-  const [current, setCurrent] = useState<ICurrent>();
-  const [location, setLocation] = useState<string | undefined>('');
+  const [data, setData] = useState<ICurrent>();
 
   useEffect(() => {
     axios.get('https://httpbin.org/ip')
-    .then(data => setState(data.data))
-    .catch(error => console.error('Error:', error));
+      .then(data => {
+        setState(data.data);
+        getWeatherFromIP(data.data.origin)
+          .then(data => getWeather(data.data.city)
+            .then(res => setData(res.data))
+          )
+          .catch(err => console.log(err))
+      })
+      .catch(error => console.error('Error:', error));
 
     console.log(state.origin);
+  }, [state.origin])
 
-    currentWeather(location ? location : 'Kara-Balta')
-      .then(res => setCurrent(res.data))
-  }, [state.origin, location])
-
-  console.log(current);
-  if (typeof current == 'undefined' || setCurrent == undefined) {
-    return <h1>Loading...</h1>
+  if (typeof data == 'undefined' || setData == undefined || state.origin == '') {
+    return <Loading />
   }
+
+  console.log(data);
 
   return (
     <>
-      <Header state={setLocation}/>
+      <Header state={setData} />
       <div>
 
       </div>

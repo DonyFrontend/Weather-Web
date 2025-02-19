@@ -59,5 +59,5 @@ export interface ICurrentData {
 }
 
 export interface ICurrentHeader {
-    state: Dispatch<SetStateAction<string | undefined>>,
+    state: Dispatch<SetStateAction<ICurrent | undefined>>,
 }
