@@ -1,15 +1,12 @@
 import { instance } from "src/api/instance"
 
 function getWeather(q: string) {
-    const data = instance.get('/current.json', {
+    const data = instance.get('/forecast.json', {
         params: {
-            q
+            q,
+            days: 3
         }
     })
-    // .then(res => res.data)
-    // .catch(error => {
-    //     throw new Error(`Failed to get data, error: ${error}`)
-    // })
 
     return data
 }

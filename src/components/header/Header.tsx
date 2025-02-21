@@ -7,13 +7,15 @@ type Input = {
   location: string
 }
 
-const Header: React.FC<ICurrentHeader> = ({ state }) => {
+const Header: React.FC<ICurrentHeader> = ({ state, loading }) => {
   const { register, handleSubmit, reset } = useForm<Input>();
 
   const onSubmit: SubmitHandler<Input> = (data) => {
+    loading(true)
     getWeather(data.location)
-      .then(data => state(data.data))
-      .catch(err => console.log(err));
+      .then(data => {state(data.data)})
+      .catch(err => console.log(err))
+      .finally(() => loading(false));
     reset();
   }
 
@@ -24,7 +26,7 @@ const Header: React.FC<ICurrentHeader> = ({ state }) => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex-1 flex justify-center">
-        <input {...register('location')} type="text" className='border-[2px] border-blue-500 rounded-[5px] h-[5svh] w-[40svh] p-2' placeholder='Search location...' />
+        <input {...register('location')} type="text" className='border-[2px] border-blue-500 rounded-[5px] h-[5svh] w-[40svh] p-2' placeholder='Search...' />
       </form>
 
       <div className="w-10"></div>

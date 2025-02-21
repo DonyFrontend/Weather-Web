@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
+import { IForecast } from "./forecastTypes";
 
-interface CurrentCondition {
+export interface CurrentCondition {
     code: number,
     icon: string,
     text: string,
@@ -52,6 +53,7 @@ interface ICurrentLocation {
 export interface ICurrent {
     current: Current,
     location: ICurrentLocation,
+    forecast: IForecast
 }
 
 export interface ICurrentData {
@@ -60,4 +62,5 @@ export interface ICurrentData {
 
 export interface ICurrentHeader {
     state: Dispatch<SetStateAction<ICurrent | undefined>>,
+    loading: Dispatch<SetStateAction<boolean | undefined>>
 }
