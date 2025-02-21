@@ -2,6 +2,7 @@ import { ICurrentHeader } from 'src/api/queries/current/currentTypes';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import logo from 'src/assets/icons/logo.svg';
 import { getWeather } from 'src/api/queries/current/current';
+import { setHistoryItem } from 'src/shared/const/History';
 
 type Input = {
   location: string
@@ -9,11 +10,19 @@ type Input = {
 
 const Header: React.FC<ICurrentHeader> = ({ state, loading }) => {
   const { register, handleSubmit, reset } = useForm<Input>();
+  const time = `${String(new Date().getHours())}:${new Date().getMinutes()}`
 
   const onSubmit: SubmitHandler<Input> = (data) => {
-    loading(true)
+    loading(true);
     getWeather(data.location)
-      .then(data => {state(data.data)})
+      .then(res => {
+        state(res.data);
+        setHistoryItem({
+          location: res.data.location.name,
+          temperature: res.data.current.temp_c,
+          time,
+        })
+      })
       .catch(err => console.log(err))
       .finally(() => loading(false));
     reset();

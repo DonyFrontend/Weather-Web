@@ -64,3 +64,8 @@ export interface ICurrentHeader {
     state: Dispatch<SetStateAction<ICurrent | undefined>>,
     loading: Dispatch<SetStateAction<boolean | undefined>>
 }
+
+export interface ICurrentQuery {
+    state: Dispatch<SetStateAction<ICurrent | undefined>>,
+    loading: Dispatch<SetStateAction<boolean | undefined>>
+}

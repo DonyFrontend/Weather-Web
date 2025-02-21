@@ -7,11 +7,15 @@ import Loading from "./pages/Loading/Loading";
 import { getWeatherFromIP } from "./api/queries/fromIP/fromIP";
 import { getWeather } from "./api/queries/current/current";
 import Data from "./components/data/Data";
+import { setHistoryItem } from "./shared/const/History";
+import QueryHistory from "./pages/queryHistory/QueryHistory";
 
 function App() {
   const [state, setState] = useState({ origin: '' });
   const [loading, setLoading] = useState<boolean>();
   const [data, setData] = useState<ICurrent>();
+  const time = `${String(new Date().getHours())}:${new Date().getMinutes()}`
+
 
   useEffect(() => {
     setLoading(true)
@@ -20,7 +24,14 @@ function App() {
         setState(data.data);
         getWeatherFromIP(data.data.origin)
           .then(data => getWeather(data.data.city)
-            .then(res => setData(res.data))
+            .then(res => {
+              setData(res.data);
+              setHistoryItem({
+                location: res.data.location.name,
+                temperature: res.data.current.temp_c,
+                time,
+              })
+            })
           )
           .catch(err => console.log(err))
       })
@@ -28,7 +39,7 @@ function App() {
       .finally(() => setLoading(false));
 
     console.log(state.origin);
-  }, [state.origin])
+  }, [state.origin, time])
 
   if (typeof data == 'undefined' || setData == undefined || state.origin == '' || loading) {
     return <>
@@ -37,15 +48,12 @@ function App() {
     </>
   }
 
-
-
-  console.log(data);
-
   return (
     <>
       <Header state={setData} loading={setLoading} />
       <div className="mt-[65px]">
         <Data current={data.current} forecast={data.forecast} location={data.location} />
+        <QueryHistory state={setData} loading={setLoading}/>
       </div>
       <Footer />
     </>
