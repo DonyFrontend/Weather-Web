@@ -20,7 +20,7 @@ const Header: React.FC<ICurrentHeader> = ({ state, loading }) => {
   }
 
   return (
-    <header className="fixed items-center flex justify-start w-full top-0 left-0 border-b-[2px] border-b-gray-600 p-3">
+    <header className="fixed items-center backdrop-blur-lg flex justify-start w-full top-0 left-0 border-b-[2px] border-b-gray-600 p-3">
       <div className="flex-shrink-0">
         <img src={logo} alt="Logo" className="h-10" />
       </div>

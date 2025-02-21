@@ -1,45 +1,23 @@
 import { Button } from "antd";
 import React from "react";
 import { ICurrent } from "src/api/queries/current/currentTypes";
-import moonPhase from "src/assets/icons/moon-phase.svg";
-import moonrise from "src/assets/icons/moonrise.svg";
-import moonset from "src/assets/icons/moonset.svg";
-import sunrise from "src/assets/icons/sunrise.svg";
-import sunset from "src/assets/icons/sunset.svg";
+import NextDays from "../NextDays/NextDays";
+import Title from "src/shared/ui/title/Title";
+import { getAstro } from "src/shared/const/Astro";
 
 const Data: React.FC<ICurrent> = ({ current, forecast, location }) => {
   const astro = forecast.forecastday[0].astro;
 
-  const astroData = [
-    {
-      text: "Moon phase",
-      icon: moonPhase,
-      time: astro.moon_phase,
-    },
-    {
-      text: "Moonrise",
-      icon: moonrise,
-      time: astro.moonrise,
-    },
-    {
-      text: "Moonset",
-      icon: moonset,
-      time: astro.moonset,
-    },
-    {
-      text: "Sunrise",
-      icon: sunrise,
-      time: astro.sunrise,
-    },
-    {
-      text: "Sunset",
-      icon: sunset,
-      time: astro.sunset,
-    }
-  ]
+  const astroData = getAstro({
+    moon_phase: astro.moon_phase,
+    moonrise: astro.moonrise,
+    moonset: astro.moonset,
+    sunrise: astro.sunrise,
+    sunset: astro.sunset
+  })
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-y-20">
       <main className="flex bg-blue-400 w-full flex-col items-center p-3 gap-y-5 text-white">
         <div className="flex flex-col items-center">
           <div className="flex gap-x-2 items-center">
@@ -72,7 +50,14 @@ const Data: React.FC<ICurrent> = ({ current, forecast, location }) => {
         <div className="self-center">
           <Button className="text-[16px] font-medium p-2">View weather history for the last 7 days</Button>
         </div>
+
       </main>
+
+      <div className="w-full flex flex-col items-center gap-y-2">
+        <Title title="The weather forecast for the following days" />
+        <NextDays forecastday={forecast.forecastday.slice(1)} />
+      </div>
+
     </div>
   )
 }
