@@ -10,7 +10,9 @@ type Input = {
 
 const Header: React.FC<ICurrentHeader> = ({ state, loading }) => {
   const { register, handleSubmit, reset } = useForm<Input>();
-  const time = `${String(new Date().getHours())}:${new Date().getMinutes()}`
+  const time = `${String(new Date().getHours())}:${new Date().getMinutes() > 9 ? new Date().getMinutes() : '0' + new Date().getMinutes()}`;
+  console.log(time);
+  
 
   const onSubmit: SubmitHandler<Input> = (data) => {
     loading(true);

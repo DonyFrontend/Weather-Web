@@ -1,4 +1,4 @@
-type historyItem = {
+export type historyItem = {
     location: string,
     time: string,
     temperature: number,
