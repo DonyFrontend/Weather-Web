@@ -30,9 +30,6 @@ const QueryHistory: React.FC<ICurrentQuery> = ({ loading, state }) => {
       .finally(() => loading(false));
   }
 
-  console.log(history.length > 10);
-
-
   return (
     <div className="flex flex-col w-full items-start gap-y-6 mt-5 p-3">
       <h1 className="text-[21px] font-bold">Your query history</h1>

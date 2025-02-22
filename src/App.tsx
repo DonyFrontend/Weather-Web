@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Header from "src/components/header/Header";
-import Footer from "./components/footer/Footer";
 import { ICurrent } from "./api/queries/current/currentTypes";
 import axios from "axios";
 import Loading from "./pages/Loading/Loading";
@@ -37,8 +36,6 @@ function App() {
       })
       .catch(error => console.error('Error:', error))
       .finally(() => setLoading(false));
-
-    console.log(state.origin);
   }, [state.origin, time])
 
   if (typeof data == 'undefined' || setData == undefined || state.origin == '' || loading) {
@@ -55,7 +52,6 @@ function App() {
         <Data current={data.current} forecast={data.forecast} location={data.location} />
         <QueryHistory state={setData} loading={setLoading}/>
       </div>
-      <Footer />
     </>
   )
 }
