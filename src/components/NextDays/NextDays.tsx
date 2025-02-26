@@ -1,8 +1,10 @@
 import React from 'react'
 import { IForecast } from 'src/api/queries/current/forecastTypes'
 import { getAstro } from 'src/shared/const/Astro';
+import { useMediaQuery } from 'src/shared/hooks/use-media';
 
 const NextDays: React.FC<IForecast> = ({ forecastday }) => {
+  const media = useMediaQuery('(max-width: 768px)');
 
   return (
     <main className="flex w-full">
@@ -25,7 +27,7 @@ const NextDays: React.FC<IForecast> = ({ forecastday }) => {
             </section>)}
           </article>
           
-          <article className="w-full flex flex-shrink-0 justify-center gap-x-6">
+          <article className={`w-full flex flex-shrink-0 ${media && 'flex-col gap-y-3'} justify-center gap-x-6`}>
             {getAstro({
               moon_phase: item.astro.moon_phase,
               moonrise: item.astro.moonrise,

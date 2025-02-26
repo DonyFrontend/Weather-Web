@@ -4,9 +4,11 @@ import { ICurrent } from "src/api/queries/current/currentTypes";
 import NextDays from "../NextDays/NextDays";
 import Title from "src/shared/ui/title/Title";
 import { getAstro } from "src/shared/const/Astro";
+import { useMediaQuery } from "src/shared/hooks/use-media";
 
 const Data: React.FC<ICurrent> = ({ current, forecast, location }) => {
   const astro = forecast.forecastday[0].astro;
+  const media = useMediaQuery('(max-width:768px)');
 
   const astroData = getAstro({
     moon_phase: astro.moon_phase,
@@ -39,7 +41,7 @@ const Data: React.FC<ICurrent> = ({ current, forecast, location }) => {
           </section>)}
         </article>
 
-        <article className="w-full flex flex-shrink-0 justify-center gap-x-6">
+        <article className={`w-full flex ${media && 'flex-col gap-y-3'} flex-shrink-0 justify-center gap-x-6`}>
           {astroData.map((item, index) => <section key={index} className="shadow-xl hover:-translate-y-2 transition-transform flex flex-col items-center justify-around p-2 px-5 border-[2px] rounded-[10px] border-white">
             <p className="text-[20px] font-medium text-white">{item.text}</p>
             <img src={item.icon} className="w-[75px] h-[75px]" alt="Moon phase moonrise moonset sunrise sunset" />
